@@ -1,5 +1,6 @@
 package sevices;
 
+import enums.GameEvent;
 import exceptions.OutOfMapException;
 
 import java.util.ArrayList;
@@ -9,16 +10,19 @@ import java.util.Map;
 
 public class EventManager implements EventEmit{
 
-    private Map<String, List<EventListener> > listeners = new HashMap<>();
+    private Map<GameEvent, List<EventListener> > listeners = new HashMap<>();
 
+    /*
     public EventManager(String ...eventNames) {
         for (String evenName : eventNames  ) {
             listeners.put(evenName, new ArrayList<>());
         }
     }
+     */
+
 
     //Добавление нового слушателя
-    public void addListener(String evenName, EventListener listener){
+    public void addListener(GameEvent evenName, EventListener listener){
         List<EventListener> eventListeners = this.listeners.get(evenName);
         if (eventListeners == null){
             eventListeners = new ArrayList<>();
@@ -28,14 +32,14 @@ public class EventManager implements EventEmit{
     }
 
     //Удаление
-    public void removeListener(String eventName, EventListener listener){
+    public void removeListener(GameEvent eventName, EventListener listener){
         List<EventListener> eventListeners = listeners.get(eventName);
         if (eventListeners !=null)
             eventListeners.remove(listener);
     }
 
     //Информатор - издатель
-    public void eventEmitting(String eventName, Object parameter) throws OutOfMapException {
+    public void eventEmitting(GameEvent eventName, Object parameter) throws OutOfMapException {
         List<EventListener> eventListeners = listeners.get(eventName);
         if (eventListeners !=  null){
             for (EventListener s : eventListeners ) {

@@ -1,11 +1,14 @@
 package sevices;
 
 
+import enums.GameEvent;
 import exceptions.OutOfMapException;
 import model.*;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static enums.GameEvent.*;
 
 public class GameManager implements EventListener {
 
@@ -30,15 +33,15 @@ public class GameManager implements EventListener {
 
     public GameManager(EventEmit event) {
         this.event = event;
-        this.event.addListener("GAME_OVER", this);
+        this.event.addListener(GAME_OVER, this);
         this.localMap = new LocalMap(event);
     }
 
     @Override
-    public void eventHappened(String eventName, Object parameter) {
+    public void eventHappened(GameEvent eventName, Object parameter) {
         System.out.println("GameMaster");
         switch (eventName){
-            case "GAME_OVER":
+            case GAME_OVER:
                this.isGameOver = true;
                 System.out.println("Игра окончена");
                 break;

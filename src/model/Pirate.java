@@ -1,9 +1,12 @@
 package model;
 
 import dto.ChangeCoordinates;
+import enums.GameEvent;
 import exceptions.OutOfMapException;
 import sevices.EventEmit;
 import sevices.EventListener;
+
+import static enums.GameEvent.*;
 
 public class Pirate extends Creature implements UsableOnMap, EventListener {
 
@@ -23,7 +26,7 @@ public class Pirate extends Creature implements UsableOnMap, EventListener {
         this.name = name;
 
         this.eventEmit = eventEmit;
-        this.eventEmit.addListener("ADD_NEW_OBJECT", this);
+        this.eventEmit.addListener(ADD_NEW_OBJECT, this);
     }
 
     public String toString(){
@@ -31,10 +34,10 @@ public class Pirate extends Creature implements UsableOnMap, EventListener {
     }
 
     @Override
-    public void eventHappened(String eventName, Object parameter) throws OutOfMapException {
+    public void eventHappened(GameEvent eventName, Object parameter) throws OutOfMapException {
         System.out.println("Пират ["+eventName+"]");
         switch (eventName) {
-            case "ADD_NEW_OBJECT":
+            case ADD_NEW_OBJECT:
                 System.out.println(name +": \" Я что-то заметил !!! \"");
                 if (this == parameter) {
                     System.out.println(name+": \"Ой... так этож я\"");
@@ -68,9 +71,11 @@ public class Pirate extends Creature implements UsableOnMap, EventListener {
             }else{
                 System.out.println( "Я на месте");
                 this.destination = null;
+                change.setBecame(new Coordinate(self.getX(), self.getY()));
+                eventEmit.eventEmitting(GOT_TREASURE, change);
             }
             change.setBecame(new Coordinate(self.getX(), self.getY()));
-            eventEmit.eventEmitting("CHANGE_COORDINATE", change);
+            eventEmit.eventEmitting(CHANGE_COORDINATE, change);
         }
 
     }

@@ -1,5 +1,6 @@
 package sevices;
 
+import enums.GameEvent;
 import exceptions.OutOfMapException;
 
 /** Интерфейс "слушатель событий" */
@@ -11,6 +12,6 @@ public interface EventListener {
      * @param parameter доп.данные о мобытии
      * @throws OutOfMapException если что-то случилось с координатами
      */
-    void eventHappened(String eventName, Object parameter) throws OutOfMapException;
+    void eventHappened(GameEvent eventName, Object parameter) throws OutOfMapException;
 
 }

@@ -1,5 +1,6 @@
 package sevices;
 
+import enums.GameEvent;
 import exceptions.OutOfMapException;
 
 public interface EventEmit {
@@ -10,8 +11,8 @@ public interface EventEmit {
      * @param evenName имя события
      * @param listener слушатель, которого подписываем (ему будут приходить уведомления)
      */
-    void addListener(String evenName, EventListener listener);
-    void removeListener(String eventName, EventListener listener);
+    void addListener(GameEvent evenName, EventListener listener);
+    void removeListener(GameEvent eventName, EventListener listener);
 
     /**
      * Сообщить всем заинтересованным (подписчикам) о том, что произошло событие
@@ -19,6 +20,6 @@ public interface EventEmit {
      * @param parameter доп.данные о событии
      * @throws OutOfMapException
      */
-    void eventEmitting(String eventName, Object parameter) throws OutOfMapException;
+    void eventEmitting(GameEvent eventName, Object parameter) throws OutOfMapException;
 
 }

@@ -1,9 +1,12 @@
 package model;
 
 import dto.ChangeCoordinates;
+import enums.GameEvent;
 import exceptions.OutOfMapException;
 import sevices.EventEmit;
 import sevices.EventListener;
+
+import static enums.GameEvent.*;
 
 public class LocalMap implements EventListener {
 
@@ -23,7 +26,8 @@ public class LocalMap implements EventListener {
     public LocalMap(EventEmit eventEmit) {
         this();
         this.eventEmit = eventEmit;
-        this.eventEmit.addListener("CHANGE_COORDINATE", this);
+        this.eventEmit.addListener(CHANGE_COORDINATE, this);
+        this.eventEmit.addListener(GOT_TREASURE, this);
 
     }
 
@@ -39,16 +43,19 @@ public class LocalMap implements EventListener {
     }
 
     @Override
-    public void eventHappened(String eventName, Object parameter) {
+    public void eventHappened(GameEvent eventName, Object parameter) throws OutOfMapException {
         System.out.println("LocalMap");
         switch (eventName){
-            case "CHANGE_COORDINATE" :
+            case CHANGE_COORDINATE:
                 if (parameter instanceof ChangeCoordinates) {
                     Coordinate were = ((ChangeCoordinates) parameter).getWere();
                     Coordinate became = ((ChangeCoordinates) parameter).getBecame();
                     map[were.getX()][were.getY()] = null;
                     map[became.getX()][became.getY()] = (UsableOnMap) ((ChangeCoordinates) parameter).getObj();
                 }
+                break;
+            case GOT_TREASURE:
+                this.addNewObject(new Treasure());
                 break;
             default:
                 System.out.println("Событие не обрабатывается - "+eventName);
@@ -58,7 +65,7 @@ public class LocalMap implements EventListener {
 
     public void addNewObject(UsableOnMap obj) throws OutOfMapException {
         map[obj.getX()][obj.getY()] = obj;
-        eventEmit.eventEmitting("ADD_NEW_OBJECT", obj);
+        eventEmit.eventEmitting(ADD_NEW_OBJECT, obj);
     }
 
 }

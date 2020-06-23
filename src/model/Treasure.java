@@ -2,7 +2,20 @@ package model;
 
 import exceptions.OutOfMapException;
 
+import java.util.Random;
+
+import static model.Coordinate.maxSize;
+
 public class Treasure implements UsableOnMap {
+
+    private int x;
+    private int y;
+
+    public Treasure() {
+        this.x = new Random().nextInt(maxSize-1);
+        this.y = new Random().nextInt(maxSize-1);
+
+    }
 
     @Override
     public void doStep() throws OutOfMapException {
@@ -16,12 +29,12 @@ public class Treasure implements UsableOnMap {
 
     @Override
     public int getX() {
-        return 0;
+        return this.x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return this.y;
     }
 
     @Override
