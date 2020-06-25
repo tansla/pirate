@@ -11,9 +11,12 @@ public class Treasure implements UsableOnMap {
     private int x;
     private int y;
 
+    private int gold;
+
     public Treasure() {
         this.x = new Random().nextInt(maxSize-1);
         this.y = new Random().nextInt(maxSize-1);
+        this.gold = new Random().nextInt(10);
 
     }
 
@@ -37,8 +40,12 @@ public class Treasure implements UsableOnMap {
         return this.y;
     }
 
+    public int getGold() {
+        return gold;
+    }
+
     @Override
     public String toString() {
-        return "К";
+        return "К" + this.gold;
     }
 }
